@@ -1,9 +1,10 @@
 
 package LinkedList::Iterator;
 
-use 5.008008;
+use 5.006;
 use strict;
 use warnings;
+use warnings FATAL => 'all';
 
 use overload '++'        => \&incr,
              '--'        => \&decr,
