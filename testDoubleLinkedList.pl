@@ -1,0 +1,51 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use LinkedList::Double;
+use LinkedList::Iterator;
+use Test::Simple tests => 20;
+
+system("clear");
+my $list1 = LinkedList::Double->new;
+my ( $strList, $strRefs, $itr1 );
+$list1->push_back(5);
+ok( $list1->find(5) == 0, 'found 5 in position 0 ( push_back(5) )' );
+$list1->push_back(7);
+ok( $list1->find(7) == 1, 'found 7 in position 1 ( push_back(7) )' );
+$list1->push_front(9);
+ok( $list1->find(9) == 0, 'found 9 in position 0 ( push_front(9) )' );
+$list1->push_back(13);
+ok( $list1->find(13) == 3, 'found 13 in position 3 ( push_back(13) )' );
+$list1->push_front(11);
+ok( $list1->find(11) == 0, 'found 11 in position 0 ( push_front(11) )' );
+ok ( $list1->size == 5, 'size is 5 ( size )' );
+$list1->insert(2, 15);
+ok( $list1->find(15) == 2, 'found 15 in position 2 ( insert(2,15) )' );
+$list1->remove( $list1->find(5) );
+ok( $list1->find(5) == -1, '5 not found, because removed ( remove(find(5)) )' );
+ok( $list1->find(11) == 0, 'found 11 in position 0 ( find(5) )' );
+ok( $list1->front() == 11, 'found 11 in front' );
+ok( $list1->back() == 13, 'found 13 in back' );
+$strList = $list1->to_string();
+$strRefs = $list1->to_string_refs();
+ok( $strList eq "11 9 15 7 13" );
+print $strList, "\n";
+print $strRefs, "\n";
+$itr1 = LinkedList::Iterator->new($list1, $list1->begin);
+ok ( ref($itr1) eq "LinkedList::Iterator", 'defined $itr1 ( my $itr1 = LinkedList::Iterator->new )' );
+ok( $itr1->to_string == 11, 'found 11 at itr1 begin()' );
+++$itr1;
+ok( $itr1->to_string == 9, 'found 9 ( ++$itr1 )' );
+--$itr1;
+ok( $itr1->to_string == 11, 'found 11 ( --$itr1 )' );
+++$itr1;
+ok( $itr1->to_string == 9, 'found 9 ( ++$itr1 )' );
+++$itr1;
+ok( $itr1->to_string == 15, 'found 15 ( ++$itr1 )' );
+$itr1->current($list1->end);
+ok( $itr1->to_string == 13, 'found 13 ( $itr1->current($list1->end) )' );
+--$itr1;
+ok( $itr1->to_string == 7, 'found 7  ( --$itr1 )' );
+exit;
+
